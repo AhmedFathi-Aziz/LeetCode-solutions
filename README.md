@@ -1,3 +1,3 @@
 # LeetCode Solutions
 
-[LeetCode Profile - Ahmed Fathi](https://leetcode.com/u/ahmedfathi/)
+[![LeetCode Logo](https://leetcode.com/static/images/LeetCode_logo.png)](https://leetcode.com/u/ahmedfathi/)
