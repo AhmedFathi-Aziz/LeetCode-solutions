@@ -19,4 +19,9 @@ public:
 
 /*
   Bottom-Up approach
+
+  time complexity: O(amount * len(coins))
+  memory complexity: O(amount)
+
+
 */
