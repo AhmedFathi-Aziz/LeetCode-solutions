@@ -7,7 +7,5 @@ public:
                 nums[index++] = nums[i];
         for (; index < nums.size();)
             nums[index++] = 0;
-        for (auto i : nums)
-            cout << i << ' ';
     }
 };
