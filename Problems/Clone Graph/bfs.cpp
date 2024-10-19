@@ -20,24 +20,23 @@ public:
 */
 
 class Solution {
+
 public:
-   
     Node* cloneGraph(Node* node) {
         if (!node)
-            return node;
-        map<Node*, Node*> mp;
-        queue<Node*> q;
-
-        q.push(node);
+            return nullptr;
+        unordered_map<Node*, Node*> mp;
         mp[node] = new Node(node->val);
-        
+        queue<Node*> q;
+        q.push(node);
         while (!q.empty()) {
-            Node* current = q.front();
+            Node *current = q.front();
             q.pop();
-            for (auto &neighbor : current->neighbors) {
-                if (mp.find(neighbor) == mp.end())
-                    mp[neighbor] = new Node(neighbor->val),
+            for (auto neighbor : current->neighbors) {
+                if (mp.find(neighbor) == mp.end()) {
+                    mp[neighbor] = new Node(neighbor->val);
                     q.push(neighbor);
+                }
                 mp[current]->neighbors.push_back(mp[neighbor]);
             }
         }

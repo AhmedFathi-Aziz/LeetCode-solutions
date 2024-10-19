@@ -1,26 +1,29 @@
 class Solution {
-public:
-
-    bool dfs(vector<vector<int>> &adj, vector<int> &visited, int node) {
-        if (visited[node] == 2)
+private:
+    bool dfs(int node, vector<bool> &visit, vector<vector<int>> &adj) {
+        if (visit[node])
             return false;
-        visited[node] = 2;
-        for (auto &i : adj[node])
-            if (visited[i] != 1)
-                if (!dfs(adj, visited, i))
-                    return false;
-        visited[node] = 1;
+        if (!adj[node].size())
+            true;
+        visit[node] = true;
+        for (int i : adj[node]) {
+            if (!dfs(i, visit, adj))
+                return false;
+        }
+        visit[node] = 0;
+        adj[node] = {};
         return true;
     }
+public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         vector<vector<int>> adj(numCourses);
-        for (int i = 0; i < prerequisites.size(); i++)
-            adj[prerequisites[i][0]].push_back(prerequisites[i][1]);
-        vector<int> visited(numCourses, 0);
-        for (int i = 0; i < numCourses; i++)
-            if (!visited[i])
-                if (!dfs(adj, visited, i))
-                    return false;
+        vector<bool> visit(numCourses, 0);
+        for (auto &vec : prerequisites)
+            adj[vec[0]].push_back(vec[1]);
+        int i = 0;
+        for (; i < numCourses; i++)
+            if (!dfs(i, visit, adj))
+                return false;
         return true;
     }
 };
