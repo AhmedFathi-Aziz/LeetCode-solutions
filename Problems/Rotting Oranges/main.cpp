@@ -1,39 +1,39 @@
 class Solution {
 public:
     int orangesRotting(vector<vector<int>>& grid) {
+        vector<pair<int, int>> direction = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
         queue<pair<int, int>> q;
-        int freshOranges = 0;
+        int time = 0;
+        int fresh = 0;
         for (int i = 0; i < grid.size(); i++) {
-            for (int j = 0; j < grid[0].size(); j++) {
+            for (int j = 0; j < grid[i].size(); j++) {
                 if (grid[i][j] == 2)
                     q.push({i, j});
-                if (grid[i][j] == 1)
-                    freshOranges++;
+                else if (grid[i][j] == 1)
+                    ++fresh;
             }
         }
-
-        int dir[][2] = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
-        int minutes = 0;
-        while (!q.empty() and freshOranges) {
+        while (!q.empty() and fresh) {
             int n = q.size();
-            bool flag = false;
             while (n--) {
-                auto cell = q.front();
+                int row = q.front().first;
+                int col = q.front().second;
                 q.pop();
-
-                for (int i = 0; i < 4; i++) {
-                    int row = cell.first + dir[i][0];
-                    int col = cell.second + dir[i][1];
-                    if (row < 0 || row == grid.size() || col < 0 || col == grid[0].size() || grid[row][col] != 1)
+                for (auto &d : direction) {
+                    int r = d.first + row;
+                    int c = d.second + col;
+                    if (r < 0 or r == grid.size() or
+                        c < 0 or c == grid[r].size() or grid[r][c] != 1)
                         continue;
-                    q.push({row, col});
-                    grid[row][col] = 2;
-                    --freshOranges;
-                    
+                    grid[r][c] = 2,
+                    q.push({r, c}),
+                    --fresh;
                 }
             }
-            minutes++;
+            ++time;
         }
-        return freshOranges ? -1 : minutes;
+        if (fresh)
+            return -1;
+        return time;
     }
 };
