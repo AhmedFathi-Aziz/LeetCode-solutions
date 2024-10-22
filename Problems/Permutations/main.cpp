@@ -1,23 +1,26 @@
 class Solution {
-public:
-    vector<vector<int>> permutations;
-    vector<vector<int>> permute(vector<int>& nums) {
-        vector<int> perm;
-        rec(nums, perm);
-        return permutations;
-    }
-    void rec(vector<int>& nums, vector<int> perm) {
-        if (nums.size() == perm.size()) {
-            permutations.push_back(perm);
+private:
+    vector<vector<int>> answer;
+    void backtrack(vector<int>& nums, vector<int> &permutation, vector<bool> &visit) {
+        if (permutation.size() == nums.size()) {
+            answer.push_back(permutation);
             return;
         }
-        for (int i = 0; i < nums.size(); i++) {
-            if (find(perm.begin(), perm.end(), nums[i]) == perm.end()) {
-                perm.push_back(nums[i]);
-                rec(nums, perm);
-                perm.pop_back();
-            }
+        for (int i : nums) {
+            if (visit[i + 10])
+                continue;
+            visit[i + 10] = true;
+            permutation.push_back(i);
+            backtrack(nums, permutation, visit);
+            visit[i + 10] = false;
+            permutation.pop_back();
         }
     }
-    
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<int> permutation;
+        vector<bool> visit(30, false);
+        backtrack(nums, permutation, visit);
+        return answer;
+    }
 };
