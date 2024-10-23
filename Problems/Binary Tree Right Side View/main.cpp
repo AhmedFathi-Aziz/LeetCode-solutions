@@ -11,17 +11,17 @@
  */
 class Solution {
 public:
-    vector<int> answer;
-    void bfs(TreeNode *root) {
-        if (root == nullptr)
-            return;
+    vector<int> rightSideView(TreeNode* root) {
+        if (!root)
+            return {};
         queue<TreeNode*> q;
+        int len = 0;
         q.push(root);
-
         TreeNode *node = nullptr;
+        vector<int> answer;
         while (!q.empty()) {
-            int length = q.size();
-            for (int i = 0; i < length; i++) {
+            len = q.size(); 
+            while (len--) {
                 node = q.front();
                 q.pop();
                 if (node) {
@@ -34,9 +34,6 @@ public:
             if (node)
                 answer.push_back(node->val);
         }
-    }
-    vector<int> rightSideView(TreeNode* root) {
-        bfs(root);
         return answer;
     }
 };
