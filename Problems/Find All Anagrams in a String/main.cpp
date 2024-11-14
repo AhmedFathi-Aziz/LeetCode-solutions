@@ -1,27 +1,25 @@
 class Solution {
 public:
     vector<int> findAnagrams(string s, string p) {
-        unordered_map<char, int> pMap;
-        unordered_map<char, int> sMap;
-
+        unordered_map<char, int> S, P;
         int i = 0;
-        for (; i < p.length(); i++)
-            pMap[p[i]]++,
-            sMap[s[i]]++;
-        
-        int l = 0;
-        vector<int> answer;
-        while (i < s.length()) {
-            if (pMap == sMap)
-                answer.push_back(l);
-            sMap[s[i++]]++;
-            sMap[s[l]]--;
-            if (!sMap[s[l]])
-                sMap.erase(s[l]);
-            ++l;
+        for (; i < p.size(); i++)
+            P[p[i]]++,
+            S[s[i]]++;
+        int j = p.size();
+        i = 0;
+        vector<int> indices;
+        while (j < s.size()) {
+            if (S == P)
+                indices.push_back(i);
+            S[s[j++]]++;
+            S[s[i]]--;
+            if (S[s[i]] == 0)
+                S.erase(s[i]);
+            ++i;
         }
-        if (pMap == sMap)
-            answer.push_back(l);
-        return answer;
-    } 
+        if (S == P)
+            indices.push_back(i);
+        return indices;
+    }
 };

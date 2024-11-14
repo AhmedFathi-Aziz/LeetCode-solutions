@@ -8,30 +8,28 @@
  *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
-    Lever Order Traversal
-    BFS
  */
 class Solution {
 public:
-    void invert(TreeNode* root) {
+    TreeNode* invertTree(TreeNode* root) {
         if (!root)
-            return;
+            return root;
         queue<TreeNode*> q;
         q.push(root);
-        while (!q.empty()) {   
-            TreeNode* node = q.front();
+        TreeNode* node = nullptr;
+        TreeNode* temp = nullptr;
+        while (!q.empty()) {
+            node = q.front();
             q.pop();
-            TreeNode* p = node->left;
+            if (!node)
+                continue;
+            q.push(node->left);
+            q.push(node->right);
+
+            temp = node->left;
             node->left = node->right;
-            node->right = p;
-            if (node->left)
-                q.push(node->left);
-            if (node->right)
-                q.push(node->right); 
+            node->right = temp;
         }
-    }
-    TreeNode* invertTree(TreeNode* root) {
-        invert(root);
         return root;
     }
 };
