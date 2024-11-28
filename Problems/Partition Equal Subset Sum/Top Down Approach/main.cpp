@@ -1,19 +1,16 @@
 class Solution {
-private:
-    bool func(vector<int> &nums, vector<vector<int>> &memo, int target, int index) {
-        if (index >= nums.size() 
-            || target < 0)
+public:
+    bool dfs(int index, int sum, vector<int> &nums, vector<vector<int>> &memo) {
+        if (index == nums.size() || sum < 0)
             return false;
-        if (target == 0)
+        if (sum == 0)
             return true;
-        int &ret = memo[index][target];
+        int &ret = memo[index][sum];
         if (~ret)
             return ret;
-
-        return ret = func(nums, memo, target - nums[index], index + 1)
-        || func(nums, memo, target, index + 1);
+        return ret = dfs(index + 1, sum - nums[index], nums, memo) ||
+            dfs(index + 1, sum, nums, memo);
     }
-public:
     bool canPartition(vector<int>& nums) {
         int sum = 0;
         for (int i : nums)
@@ -21,6 +18,6 @@ public:
         if (sum & 1)
             return false;
         vector<vector<int>> memo(201, vector<int> (10001, -1));
-        return func(nums, memo, sum / 2, 0);
+        return dfs(0, sum / 2, nums, memo);
     }
 };

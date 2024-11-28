@@ -6,14 +6,22 @@ public:
             sum += i;
         if (sum & 1)
             return false;
-        
-        int target = sum / 2;
-        vector<int> dp(target + 1, false);
-        dp[0] = true;
+        unordered_map<int, bool> mp;
+        vector<int> dp;
+        dp.push_back(0);
         for (int i : nums) {
-            for (int j = target; j >= i; j--)
-                dp[j] = dp[j] || dp[j - i];
+            vector<int> vec;
+            for (auto j : dp) {
+                if (mp.find(i + j) == mp.end())
+                    vec.push_back(i + j);
+            }
+            for (int j : vec) {
+                if (j == sum / 2)
+                    return true;
+                dp.push_back(j);
+                mp[j] = true;
+            }
         }
-        return dp[target];
+        return false;
     }
 };

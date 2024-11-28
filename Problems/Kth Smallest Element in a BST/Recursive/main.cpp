@@ -11,18 +11,16 @@
  */
 class Solution {
 public:
-    bool dfs(TreeNode *p, TreeNode *q) {
-        if (!p and !q)
-            return true;
-        if (!p or !q)
-            return false;
-        if (p->val != q->val)
-            return false;
-        return dfs(p->left, q->left) &&
-               dfs(p->right, q->right);
-        
+    vector<int> vec;
+    void dfs(TreeNode *root) {
+        if (!root)
+            return;
+        dfs(root->left);
+        vec.push_back(root->val);
+        dfs(root->right);
     }
-    bool isSameTree(TreeNode* p, TreeNode* q) {
-        return dfs(p, q);
+    int kthSmallest(TreeNode* root, int k) {
+        dfs(root);
+        return vec[k - 1];
     }
 };

@@ -11,18 +11,17 @@
  */
 class Solution {
 public:
-    bool mirror(TreeNode *left, TreeNode *right) {
+    bool dfs(TreeNode * left, TreeNode *right) {
         if (!left && !right)
             return true;
         if (!left || !right)
             return false;
-            
         if (left->val != right->val)
             return false;
-        return mirror(left->left, right->right) && 
-               mirror(left->right, right->left);
+        return dfs(left->left, right->right) &&
+               dfs(left->right, right->left);
     }
     bool isSymmetric(TreeNode* root) {
-        return mirror(root->left, root->right);
+        return dfs(root->left, root->right);
     }
 };

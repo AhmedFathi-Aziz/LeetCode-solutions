@@ -20,11 +20,10 @@ public:
 */
 
 class Solution {
-
 public:
     Node* cloneGraph(Node* node) {
         if (!node)
-            return nullptr;
+            return node;
         unordered_map<Node*, Node*> mp;
         mp[node] = new Node(node->val);
         queue<Node*> q;

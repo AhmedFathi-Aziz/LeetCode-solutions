@@ -10,19 +10,17 @@
  * };
  */
 class Solution {
-private:
-    using ll = long long;
-    bool valid(TreeNode *node, ll left, ll right) {
-        if (!node)
-            return true;
-        if (!(node->val > left && node->val < right))
-            return false;
-        
-        return valid(node->left, left, node->val) &&
-        valid(node->right, node->val, right);
-    }
 public:
+    using ll = long long;
+    bool dfs(ll left, TreeNode *root, ll right) {
+        if (!root)
+            return true;
+        if (!(left < root->val && root->val < right))
+            return false;
+        return dfs(root->val, root->right, right) &&
+               dfs(left, root->left, root->val);
+    }
     bool isValidBST(TreeNode* root) {
-        return valid(root, -1e10, 1e10);
+        return dfs(-1e10, root, 1e10);
     }
 };

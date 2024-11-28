@@ -1,17 +1,16 @@
 class Solution {
-private:
+public:
     unordered_map<char, string> mp;
-    vector<string> answer;
-    void func(string digits, string word, int index = 0) {
-        if (word.size() == digits.size()) {
-            answer.push_back(word);
+    vector<string> vec;
+    void dfs(string digits, string combination, int index) {
+        if (index == digits.size()) {
+            vec.push_back(combination);
             return;
         }
         for (char letter : mp[digits[index]]) {
-            func(digits, word + letter, index + 1);
+            dfs(digits, combination + letter, index + 1);
         }
     }
-public:
     vector<string> letterCombinations(string digits) {
         mp['2'] = "abc";
         mp['3'] = "def";
@@ -22,7 +21,8 @@ public:
         mp['8'] = "tuv";
         mp['9'] = "wxyz";
         if (!digits.empty())
-            func(digits, "");
-        return answer;
+            dfs(digits, "", 0);
+        return vec;
+        
     }
 };

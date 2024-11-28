@@ -5,18 +5,16 @@
  *     ListNode *next;
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
-    Floyd's Tortoise and Hare
  */
 class Solution {
 public:
     bool hasCycle(ListNode *head) {
-        ListNode* t = head;
-        ListNode* h = head;
-        int len = 0;
-        while (h && h->next) {
-            t = t->next;
-            h = h->next->next;
-            if (t == h)
+        ListNode *tortoise = head;
+        ListNode *hare = head;
+        while (hare and hare->next) {
+            tortoise = tortoise->next;
+            hare = hare->next->next;
+            if (tortoise == hare)
                 return true;
         }
         return false;

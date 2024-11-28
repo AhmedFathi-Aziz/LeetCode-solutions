@@ -1,26 +1,26 @@
 class Solution {
-private:
+public:
     vector<vector<int>> answer;
-    void backtrack(vector<int>& nums, vector<int> &permutation, vector<bool> &visit) {
-        if (permutation.size() == nums.size()) {
-            answer.push_back(permutation);
+    int freq[21];
+    void dfs(vector<int> &nums, vector<int> sofar) {
+        if (sofar.size() == nums.size()) {
+            answer.push_back(sofar);
             return;
         }
-        for (int i : nums) {
-            if (visit[i + 10])
+        for (int number : nums) {
+            if (freq[number + 10])
                 continue;
-            visit[i + 10] = true;
-            permutation.push_back(i);
-            backtrack(nums, permutation, visit);
-            visit[i + 10] = false;
-            permutation.pop_back();
+            sofar.push_back(number);
+            freq[number + 10] = true;
+            dfs(nums, sofar);
+            sofar.pop_back();
+            freq[number + 10] = false;
         }
     }
-public:
     vector<vector<int>> permute(vector<int>& nums) {
-        vector<int> permutation;
-        vector<bool> visit(30, false);
-        backtrack(nums, permutation, visit);
+        memset(freq, 0, sizeof(freq));
+        vector<int> sofar;
+        dfs(nums, sofar);
         return answer;
     }
 };
