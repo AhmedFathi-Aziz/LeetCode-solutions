@@ -2,15 +2,15 @@ class Solution {
 public:
     int majorityElement(vector<int>& nums) {
         int count = 0;
-        int number = 0;
-        for (int i : nums) {
+        int output = 0;
+        for (int num : nums) {
             if (!count)
-                number = i;
-            if (i == number)
+                output = num;
+            if (output == num)
                 ++count;
             else
                 --count;
         }
-        return number;
+        return output;
     }
 };
