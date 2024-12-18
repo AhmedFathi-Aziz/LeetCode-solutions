@@ -1,10 +1,18 @@
 class Solution {
 public:
-    static bool compare(const vector<int> &a, const vector<int> &b) {
-        return a[0] * a[0] + a[1] * a[1] < b[0] * b[0] + b[1] * b[1];
-    }
     vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
-       sort(points.begin(), points.end(), compare);
-       return vector<vector<int>>(points.begin(), points.begin() + k);
+        priority_queue<pair<int, vector<int>>> pq;
+        for (auto point : points) {
+            int distance = point[0] * point[0];
+            distance += point[1] * point[1];
+
+            pq.push({-distance, point});
+        }
+        vector<vector<int>> output;
+        while (k--) {
+            output.push_back(pq.top().second);
+            pq.pop();
+        }
+        return output;
     }
 };
