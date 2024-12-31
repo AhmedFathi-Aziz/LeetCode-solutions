@@ -1,6 +1,6 @@
-class Solution {
-public:
-    int doWork(vector<int> &num1, vector<int> &num2, int k) {
+int doWork(vector<int> &num1, vector<int> &num2, int k) {
+		if (k > num1.size() + num2.size())
+			return -1;
         if (num1.size() > num2.size())
             return doWork(num2, num1, k);
         if (num1.empty())
@@ -33,10 +33,6 @@ public:
         return min(num1[low1], num2[low2]);
     }
 
-    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
-        int len = nums1.size() + nums2.size();
-        if (len & 1)
-            return doWork(nums1, nums2, len / 2 + 1);
-        return (doWork(nums1, nums2, len / 2) + doWork(nums1, nums2, len / 2 + 1)) / 2.0;
-    }
-};
+int getKthElement(vector<int> &firstArr, vector<int> &secondArr, int k) {
+   return doWork(firstArr, secondArr, k);
+}
