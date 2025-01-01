@@ -3,15 +3,16 @@ public:
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
         vector<vector<vector<int>>> dp(target + 1);
         dp[0] = {{}};
-        for (int j : candidates) {
+        for (int num : candidates) {
             for (int i = 1; i <= target; i++) {
-                if (i < j)
+                if (i < num)
                     continue;
-                if (dp[i - j].empty())
+                if (dp[i - num].empty())
                     continue;
-                for (auto u : dp[i - j]) {
-                    u.push_back(j);
-                    dp[i].push_back(u);
+                
+                for (auto vec : dp[i - num]) {
+                    vec.push_back(num);
+                    dp[i].push_back(vec);
                 }
             }
         }
