@@ -1,53 +1,58 @@
-class Trie {
-public:
-    Trie *child[26];
+struct Node {
+    unordered_map<int, Node*> child;
     bool is_leaf = false;
-    Trie() {
-        memset(child, 0, sizeof(child));
+};
+
+class Trie {
+private:
+    Node *root;
+public:
+    
+    Trie() : root(new Node()) {}
+    ~Trie() {
+        delete root;
     }
-    void insert(string word, int index = 0) {
-        if (index == (int) word.size()) {
-            is_leaf = true;
-        } else {
-            int current = word[index] - 'a';
-            if (!child[current])
-                child[current] = new Trie();
-            child[current]->insert(word, index + 1);
+
+    void insert(const string &word) {
+        auto current = root;
+        for (char ch : word) {
+            int index = ch - 'a';
+            if (current->child.find(index) == current->child.end())
+                current->child[index] = new Node();
+            current = current->child[index];
         }
+        current->is_leaf = true;
     }
-    bool search(string word, int index = 0) {
-        if (index == (int) word.size())
-            return is_leaf;
-        int current = word[index] - 'a';
-        if (!child[current])
-            return false;
-        return child[current]->search(word, index + 1);
+    
+    bool doWork(int index, const string &word, vector<int> &memo) {
+        if (index == word.size())
+            return true;
+        int &ret = memo[index];
+        if (!ret)
+            return ret;
+        auto current = root;
+        for (int i = index; i < (int) word.size(); i++) {
+            int ch = word[i] - 'a';
+            if (current->child.find(ch) == current->child.end())
+                break;
+            current = current->child[ch];
+            if (current->is_leaf) {
+                if (doWork(i + 1, word, memo))
+                    return ret = true;
+            }
+        }
+        return ret = false;
     }
 };
-bool dfs(string s, int index, Trie *root, Trie *trie, vector<int> &memo) {
-    if (index == s.size())
-        return true;
-    int &ret = memo[index];
-    if (~ret)
-        return ret;
-    for (int i = index; i < s.size(); i++) {
-        int current = s[i] - 'a';
-        if (!root->child[current])
-            return ret = false;
-        root = root->child[current];
-        if (root->is_leaf && dfs(s, i + 1, trie, trie, memo))
-            return ret = true;
-    }
-    return ret = false;
-}
+
 class Solution {
 public:
     bool wordBreak(string s, vector<string>& wordDict) {
-        Trie trie;
+        Trie tree;
         for (string word : wordDict) {
-            trie.insert(word);
+            tree.insert(word);
         }
         vector<int> memo(301, -1);
-        return dfs(s, 0, &trie, &trie, memo);
+        return tree.doWork(0, s, memo);
     }
 };
