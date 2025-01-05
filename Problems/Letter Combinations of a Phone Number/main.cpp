@@ -1,17 +1,21 @@
 class Solution {
-public:
     unordered_map<char, string> mp;
-    vector<string> vec;
-    void dfs(string digits, string combination, int index) {
-        if (index == digits.size()) {
-            vec.push_back(combination);
+    vector<string> output;
+    void backtrack(string sofar, string digits, int index) {
+        if (index == (int) digits.size()) {
+            output.push_back(sofar);
             return;
         }
-        for (char letter : mp[digits[index]]) {
-            dfs(digits, combination + letter, index + 1);
+        for (char ch : mp[digits[index]]) {
+            // sofar.push_back(ch);
+            backtrack(sofar + ch, digits, index + 1);
+            // sofar.pop_back();
         }
     }
+public:
     vector<string> letterCombinations(string digits) {
+        if (digits.empty())
+            return {};
         mp['2'] = "abc";
         mp['3'] = "def";
         mp['4'] = "ghi";
@@ -20,9 +24,7 @@ public:
         mp['7'] = "pqrs";
         mp['8'] = "tuv";
         mp['9'] = "wxyz";
-        if (!digits.empty())
-            dfs(digits, "", 0);
-        return vec;
-        
+        backtrack("", digits, 0);
+        return output;
     }
 };
