@@ -1,24 +1,29 @@
 class Solution {
 public:
-    vector<int> rightSideView(TreeNode* root) {
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
         if (root == nullptr)
             return {};
-        vector<int> output;
-        output.reserve(100);
         queue<TreeNode*> q;
         q.push(root);
+
+        bool flag = false;
+        vector<vector<int>> output;
         while (!q.empty()) {
             int n = q.size();
-            TreeNode *node;
+            vector<int> level;
             while (n--) {
-                node = q.front();
+                auto node = q.front();
                 q.pop();
                 if (node->left)
                     q.push(node->left);
                 if (node->right)
                     q.push(node->right);
+                level.push_back(node->val);
             }
-            output.emplace_back(node->val);
+            if (flag)
+                reverse(level.begin(), level.end());
+            output.push_back(level);
+            flag = !flag;
         }
         return output;
     }
